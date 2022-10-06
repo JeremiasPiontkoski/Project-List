@@ -16,8 +16,11 @@ document.querySelector("#btnLogin").addEventListener("click", (e) => {
     }else if(!User.verifyPasswordExists(password, passwordRegistred)) {
         console.log("Email ou Senha inválidos");
     }else {
+        User.setUserLogged(email)
         console.log("Usuário logado!");
     }
+
+    /* console.log(User.getDataByEmail(email)) */
     
     /* localStorage.removeItem("users") */
 })

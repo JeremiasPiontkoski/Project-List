@@ -1,7 +1,6 @@
     let users = [];
     let registredUsers = dataBase.getUsers();
-    let numMinId = 1;
-    let numMaxId = 1000;
+  
 class User {
     constructor(name, email, password){
         this.name = name;
@@ -12,27 +11,10 @@ class User {
     
     verifyUsers() {
         if(dataBase.getUsers() == null) {
-            return this.getRandomInt();
+            return dataBase.getRandomInt();
         }else {
-            return this.generateId();
+            return dataBase.generateId()
         }
-    }
-
-    getRandomInt() {
-        let min = Math.ceil(numMinId);
-        let max = Math.floor(numMaxId);
-        let id = Math.floor(Math.random() * (max - min) + min);
-        return id;
-    }
-
-    generateId() {
-        let e_id;
-        let newId;
-        do {
-            newId = this.getRandomInt();
-            e_id = registredUsers.findIndex(e => e.id == newId);
-        } while (e_id != -1);
-        return newId;
     }
 
     verifyListUsers(newUser) {
@@ -90,6 +72,17 @@ class User {
     static loginUser(email, password) {
         let e_email = this.verifyEmailExists(email);
         e_email != -1 ? this.getPasswordByIndex(e_email, password) : false;
+    }
+
+    static getDataByEmail(email) {
+        let user = registredUsers.findIndex(e => e.email = email);
+        return registredUsers[user];
+    }
+
+    static setUserLogged(email){
+        let data = this.getDataByEmail(email);
+        dataBase.setUserLogged(data);
+        return true;
     }
 
     /*
