@@ -13,7 +13,7 @@ document.querySelector("#btnRegister").addEventListener("click", (e) => {
         console.log("A senha deve conter no mínimo 8 caracteres!");
     }else {
         let newUser = new User(name, email, password);
-        newUser.verifyListUsers(newUser);
+        newUser.register(newUser);
         window.open("index.html", "_self")
     }
     /* localStorage.removeItem("users") */

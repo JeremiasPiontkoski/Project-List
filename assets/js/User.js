@@ -6,10 +6,10 @@ class User {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.id = this.verifyUsers();
+        this.id = this.verify();
     }
     
-    verifyUsers() {
+    verify() {
         if(dataBase.getUsers() == null) {
             return dataBase.getRandomInt();
         }else {
@@ -74,12 +74,12 @@ class User {
         e_email != -1 ? this.getPasswordByIndex(e_email, password) : false;
     }
 
-    static getDataByEmail(email) {
+    getDataByEmail(email) {
         let user = registredUsers.findIndex(e => e.email = email);
         return registredUsers[user];
     }
 
-    static setUserLogged(email){
+    setUserLogged(email){
         let data = this.getDataByEmail(email);
         dataBase.setUserLogged(data);
         return true;
