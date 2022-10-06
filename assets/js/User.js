@@ -1,4 +1,5 @@
     let users = [];
+    let registredUsers = dataBase.getUsers();
     let numMinId = 1;
     let numMaxId = 1000;
 class User {
@@ -29,13 +30,13 @@ class User {
         let newId;
         do {
             newId = this.getRandomInt();
-            e_id = dataBase.getUsers().findIndex(e => e.id == newId);
+            e_id = registredUsers.findIndex(e => e.id == newId);
         } while (e_id != -1);
         return newId;
     }
 
     verifyListUsers(newUser) {
-        dataBase.getUsers() == null ? this.addNewUser(newUser) : this.checkUserData(newUser);
+        registredUsers == null ? this.addNewUser(newUser) : this.setUsers(newUser);
     }
     
     addNewUser(newUser) {
@@ -44,10 +45,8 @@ class User {
         return true;
     }
 
-    setUsers(newUser) {
-        let dataUsers = dataBase.getUsers();
-        
-        dataUsers.forEach(e => {
+    setUsers(newUser) {                
+        registredUsers.forEach(e => {
             users.push(e);
         });
 
@@ -57,26 +56,40 @@ class User {
 
     registerNewUser() {
         dataBase.setUsers(users) ? this.cleanListUsers() : false;       
+    }  
+
+    static getPasswordByIndex(index, password) {
+        this.verifyPasswordExists(registredUsers[index].password, password) != -1 ? true : false
+    } 
+     
+    static verifyEmailExists(email) {
+        if(registredUsers == null){
+            return -1;
+        }else {
+          return registredUsers.findIndex(e => e.email == email)
+        }
     }
 
-    verifyEmail(newUser) {
-        let e_email = dataBase.getUsers().findIndex(e => e.email == newUser.email);
-        return e_email;
+    static getPasswordByIndex(i) {
+        return registredUsers[i].password;
     }
 
-    verifyPassword(newUser) {
-        let e_password = newUser.password.length > 7;
+    static verifyPasswordExists(inputPassword, passwordRegistred) {
+        if(inputPassword == passwordRegistred) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    static verifyPasswordLength(password) {
+        let e_password = password.length > 7;
         return e_password;
     }
 
-    checkUserData(newUser) {
-        if(this.verifyEmail(newUser) != -1){
-            console.log("Email já cadastrado!");
-        }else if(!this.verifyPassword(newUser)) {
-            console.log("A senha deve conter no mínimo 8 caracteres!");
-        }else {
-            this.setUsers(newUser);
-        }
+    static loginUser(email, password) {
+        let e_email = this.verifyEmailExists(email);
+        e_email != -1 ? this.getPasswordByIndex(e_email, password) : false;
     }
 
     /*
